@@ -81,23 +81,41 @@ function Nav() {
 
 /* ---------- Hero ---------- */
 function Hero() {
+  const glowRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  useParallax(glowRef, -0.25);
+  useParallax(gridRef, 0.12);
   return (
     <section id="top" className="grid-bg relative overflow-hidden border-b border-border">
+      <div ref={gridRef} className="pointer-events-none absolute inset-0 -z-10" aria-hidden />
       <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1.15fr_1fr] lg:py-28">
         <div>
-          <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
+          <div className="animate-load-fade-up" style={{ animationDelay: "80ms" }}>
+            <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
+          </div>
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Autonomous QA swarm for{" "}
-            <span className="text-accent">Android</span> &{" "}
-            <span className="text-violet-ink">mobile&nbsp;web</span>.
+            <RevealText text="Autonomous QA swarm for" delay={150} step={55} />{" "}
+            <span className="text-accent">
+              <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+            </span>{" "}
+            &{" "}
+            <span className="text-violet-ink">
+              <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
+            </span>
           </h1>
-          <p className="mt-6 max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p
+            className="animate-load-fade-up mt-6 max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg"
+            style={{ animationDelay: "650ms" }}
+          >
             Vantage replaces brittle, scripted UI tests with an{" "}
             <span className="text-foreground">AI-driven QA agent</span> that watches an Android screen,
             decides what to do next from a plain-English task, and executes actions via ADB — running
             in parallel across a fleet of containerized Android instances.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div
+            className="animate-load-fade-up mt-8 flex flex-wrap gap-3"
+            style={{ animationDelay: "800ms" }}
+          >
             <a
               href={REPO_URL}
               target="_blank"
@@ -119,10 +137,11 @@ function Hero() {
               ["redroid", "containerized Android"],
               ["vision-model", "driven agent"],
               ["Apache-2.0", "licensed"],
-            ].map(([k, v]) => (
+            ].map(([k, v], i) => (
               <span
                 key={k}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[0.72rem] text-muted-foreground"
+                className="animate-load-fade-up inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[0.72rem] text-muted-foreground"
+                style={{ animationDelay: `${950 + i * 90}ms` }}
               >
                 <span className="font-semibold text-foreground">{k}</span>
                 <span className="text-meta">·</span>
@@ -132,11 +151,14 @@ function Hero() {
           </div>
         </div>
 
-        <SessionMock />
+        <div ref={glowRef} className="animate-load-glow" style={{ animationDelay: "300ms" }}>
+          <SessionMock />
+        </div>
       </div>
     </section>
   );
 }
+
 
 function SessionMock() {
   const actions = [
