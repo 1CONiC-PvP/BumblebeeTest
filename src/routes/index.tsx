@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useRef } from "react";
 import vantageLogo from "@/assets/vantage-logo.png.asset.json";
 import reLogo from "@/assets/re-logo.png.asset.json";
+import { Reveal, RevealText } from "@/components/reveal";
+import { useParallax } from "@/hooks/use-scroll-fx";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,7 +50,7 @@ function Landing() {
 /* ---------- Nav ---------- */
 function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-md">
+    <header className="animate-load-fade sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-md" style={{ animationDelay: "0ms" }}>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <a href="#top" className="flex items-center gap-2.5">
           <img src={vantageLogo.url} alt="" className="h-7 w-7" />
@@ -77,23 +81,41 @@ function Nav() {
 
 /* ---------- Hero ---------- */
 function Hero() {
+  const glowRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  useParallax(glowRef, -0.25);
+  useParallax(gridRef, 0.12);
   return (
     <section id="top" className="grid-bg relative overflow-hidden border-b border-border">
+      <div ref={gridRef} className="pointer-events-none absolute inset-0 -z-10" aria-hidden />
       <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1.15fr_1fr] lg:py-28">
         <div>
-          <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
+          <div className="animate-load-fade-up" style={{ animationDelay: "80ms" }}>
+            <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
+          </div>
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Autonomous QA swarm for{" "}
-            <span className="text-accent">Android</span> &{" "}
-            <span className="text-violet-ink">mobile&nbsp;web</span>.
+            <RevealText text="Autonomous QA swarm for" delay={150} step={55} />{" "}
+            <span className="text-accent">
+              <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+            </span>{" "}
+            &{" "}
+            <span className="text-violet-ink">
+              <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
+            </span>
           </h1>
-          <p className="mt-6 max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p
+            className="animate-load-fade-up mt-6 max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg"
+            style={{ animationDelay: "650ms" }}
+          >
             Vantage replaces brittle, scripted UI tests with an{" "}
             <span className="text-foreground">AI-driven QA agent</span> that watches an Android screen,
             decides what to do next from a plain-English task, and executes actions via ADB — running
             in parallel across a fleet of containerized Android instances.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div
+            className="animate-load-fade-up mt-8 flex flex-wrap gap-3"
+            style={{ animationDelay: "800ms" }}
+          >
             <a
               href={REPO_URL}
               target="_blank"
@@ -115,10 +137,11 @@ function Hero() {
               ["redroid", "containerized Android"],
               ["vision-model", "driven agent"],
               ["Apache-2.0", "licensed"],
-            ].map(([k, v]) => (
+            ].map(([k, v], i) => (
               <span
                 key={k}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[0.72rem] text-muted-foreground"
+                className="animate-load-fade-up inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[0.72rem] text-muted-foreground"
+                style={{ animationDelay: `${950 + i * 90}ms` }}
               >
                 <span className="font-semibold text-foreground">{k}</span>
                 <span className="text-meta">·</span>
@@ -128,11 +151,14 @@ function Hero() {
           </div>
         </div>
 
-        <SessionMock />
+        <div ref={glowRef} className="animate-load-glow" style={{ animationDelay: "300ms" }}>
+          <SessionMock />
+        </div>
       </div>
     </section>
   );
 }
+
 
 function SessionMock() {
   const actions = [
@@ -232,15 +258,20 @@ function StatStrip() {
   return (
     <section className="border-b border-border bg-background-2/60">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px overflow-hidden px-6 py-10 sm:grid-cols-4">
-        {stats.map((s) => (
-          <div key={s.k} className="px-4 py-2 sm:border-l sm:border-border sm:first:border-l-0">
+        {stats.map((s, i) => (
+          <Reveal
+            key={s.k}
+            delay={i * 90}
+            className="px-4 py-2 sm:border-l sm:border-border sm:first:border-l-0"
+          >
             <div className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-meta">{s.k}</div>
             <div className="mt-2 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
               {s.v}
             </div>
             <div className="mt-1 text-xs text-muted-foreground">{s.note}</div>
-          </div>
+          </Reveal>
         ))}
+
       </div>
     </section>
   );
@@ -283,31 +314,37 @@ function Features() {
   return (
     <section id="features" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>What it does</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          A QA tester that thinks — and never gets tired.
-        </h2>
+        <Reveal>
+          <Eyebrow>What it does</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            A QA tester that thinks — and never gets tired.
+          </h2>
+        </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((f) => (
-            <article
-              key={f.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
-            >
-              <span
-                className={
-                  "absolute inset-x-0 top-0 h-px " +
-                  (f.tone === "violet"
-                    ? "bg-gradient-to-r from-transparent via-violet to-transparent"
-                    : f.tone === "crit"
-                    ? "bg-gradient-to-r from-transparent via-crit to-transparent"
-                    : "bg-gradient-to-r from-transparent via-accent to-transparent")
-                }
-              />
-              <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-            </article>
+          {items.map((f, i) => (
+            <Reveal key={f.title} delay={i * 90}>
+              <article
+                className="group relative h-full overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
+              >
+                <span
+                  className={
+                    "absolute inset-x-0 top-0 h-px " +
+                    (f.tone === "violet"
+                      ? "bg-gradient-to-r from-transparent via-violet to-transparent"
+                      : f.tone === "crit"
+                      ? "bg-gradient-to-r from-transparent via-crit to-transparent"
+                      : "bg-gradient-to-r from-transparent via-accent to-transparent")
+                  }
+                />
+                <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+              </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -352,42 +389,46 @@ function HowItWorks() {
   return (
     <section id="how" className="border-b border-border bg-background-2/40">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">The agent loop</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Five steps. Repeat until the task is done — or the app crashes.
-        </h2>
+        <Reveal>
+          <Eyebrow tone="violet">The agent loop</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Five steps. Repeat until the task is done — or the app crashes.
+          </h2>
+        </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          {steps.map((s) => (
-            <div
-              key={s.n}
-              className="relative flex flex-col rounded-2xl border border-border bg-surface p-5 hover-lift-accent"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-meta">{s.n}</span>
-                <span
+          {steps.map((s, i) => (
+            <Reveal key={s.n} delay={i * 90} className="h-full">
+              <div className="relative flex h-full flex-col rounded-2xl border border-border bg-surface p-5 hover-lift-accent">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-meta">{s.n}</span>
+                  <span
+                    className={
+                      "h-2 w-2 rounded-full " +
+                      (s.tone === "violet" ? "bg-violet" : s.tone === "crit" ? "bg-crit" : "bg-accent")
+                    }
+                  />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-foreground">{s.title}</h3>
+                <code
                   className={
-                    "h-2 w-2 rounded-full " +
-                    (s.tone === "violet" ? "bg-violet" : s.tone === "crit" ? "bg-crit" : "bg-accent")
+                    "mt-3 block rounded-md border border-border-soft bg-background-2 px-2.5 py-1.5 font-mono text-[0.68rem] leading-snug break-words " +
+                    (s.tone === "violet"
+                      ? "text-violet-ink"
+                      : s.tone === "crit"
+                      ? "text-crit"
+                      : "text-accent")
                   }
-                />
+                >
+                  {s.code}
+                </code>
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">{s.title}</h3>
-              <code
-                className={
-                  "mt-3 block rounded-md border border-border-soft bg-background-2 px-2.5 py-1.5 font-mono text-[0.68rem] leading-snug break-words " +
-                  (s.tone === "violet"
-                    ? "text-violet-ink"
-                    : s.tone === "crit"
-                    ? "text-crit"
-                    : "text-accent")
-                }
-              >
-                {s.code}
-              </code>
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -425,37 +466,43 @@ function Architecture() {
   return (
     <section id="architecture" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>Architecture</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          One scheduler. A fleet of containerized Androids. One agent per pod.
-        </h2>
+        <Reveal>
+          <Eyebrow>Architecture</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            One scheduler. A fleet of containerized Androids. One agent per pod.
+          </h2>
+        </Reveal>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
-          <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
-            <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-              vantage · topology.txt
-            </span>
-            <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+        <Reveal delay={160}>
+          <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
+            <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
+                vantage · topology.txt
+              </span>
+              <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+            </div>
+            <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
+              {diagram}
+            </pre>
           </div>
-          <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-            {diagram}
-          </pre>
-        </div>
+        </Reveal>
 
         <div className="mt-8 grid gap-3 md:grid-cols-2">
-          {components.map(([name, desc]) => (
-            <div
-              key={name}
-              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent"
-            >
-              <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
-              <div>
-                <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+          {components.map(([name, desc], i) => (
+            <Reveal key={name} delay={i * 80}>
+              <div className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent">
+                <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
+                <div>
+                  <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -466,31 +513,40 @@ function InputTypes() {
   return (
     <section className="border-b border-border bg-background-2/40">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">Input types</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Point it at an APK — or a URL.
-        </h2>
+        <Reveal>
+          <Eyebrow tone="violet">Input types</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Point it at an APK — or a URL.
+          </h2>
+        </Reveal>
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
-          <InputCard
-            tag="APK"
-            title="Native Android"
-            body="Upload an Android APK. Vantage installs it on a clean, isolated Android instance and runs the task against the native app."
-            code={`source_type: "apk"
+          <Reveal delay={0}>
+            <InputCard
+              tag="APK"
+              title="Native Android"
+              body="Upload an Android APK. Vantage installs it on a clean, isolated Android instance and runs the task against the native app."
+              code={`source_type: "apk"
 source_ref:  "com.example.app.apk"
 device:      "pixel5-android11"
 task:        "Open app, verify login renders"`}
-          />
-          <InputCard
-            tag="Web domain"
-            title="Mobile web"
-            body="Provide a URL — Vantage tests it inside a sandboxed mobile browser, with optional login credentials."
-            code={`source_type: "web"
+            />
+          </Reveal>
+          <Reveal delay={120}>
+            <InputCard
+              tag="Web domain"
+              title="Mobile web"
+              body="Provide a URL — Vantage tests it inside a sandboxed mobile browser, with optional login credentials."
+              code={`source_type: "web"
 source_ref:  "https://example.com"
 device:      "chrome-mobile"
 task:        "Add item to cart and check out"`}
-            tone="violet"
-          />
+              tone="violet"
+            />
+          </Reveal>
         </div>
+
       </div>
     </section>
   );
@@ -550,13 +606,17 @@ function Roadmap() {
   return (
     <section id="roadmap" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>Build plan</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Seven phases. From one working agent to a production fleet.
-        </h2>
+        <Reveal>
+          <Eyebrow>Build plan</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Seven phases. From one working agent to a production fleet.
+          </h2>
+        </Reveal>
         <ol className="mt-10 border-l border-border">
           {phases.map(([n, title, body], i) => (
-            <li key={n} className="relative pl-8 pb-8 last:pb-0">
+            <Reveal as="li" key={n} delay={i * 70} className="relative pl-8 pb-8 last:pb-0" y={16}>
               <span className="absolute -left-[9px] top-1 flex h-4 w-4 items-center justify-center rounded-full border border-border bg-background">
                 <span className={"h-1.5 w-1.5 rounded-full " + (i < 3 ? "bg-accent" : "bg-meta")} />
               </span>
@@ -572,9 +632,10 @@ function Roadmap() {
                 )}
               </div>
               <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted-foreground">{body}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
+
       </div>
     </section>
   );
@@ -585,39 +646,44 @@ function Team() {
   return (
     <section id="team" className="border-b border-border bg-background-2/50">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">The team</Eyebrow>
-        <div className="mt-6 grid gap-6 rounded-2xl border border-border bg-surface p-8 md:grid-cols-[auto_1fr] md:items-center md:gap-10 md:p-10">
-          <div className="flex items-center gap-5">
-            <img src={reLogo.url} alt="RenderException" className="h-16 w-16" />
-            <div className="md:hidden">
-              <div className="text-xl font-bold tracking-tight text-foreground">RenderException</div>
-              <div className="font-mono text-xs text-meta">Hackathon 2026 · Team</div>
-            </div>
-          </div>
-          <div>
-            <div className="hidden md:block">
-              <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-                Hackathon 2026 · Team
+        <Reveal>
+          <Eyebrow tone="violet">The team</Eyebrow>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-6 grid gap-6 rounded-2xl border border-border bg-surface p-8 md:grid-cols-[auto_1fr] md:items-center md:gap-10 md:p-10">
+            <div className="flex items-center gap-5">
+              <img src={reLogo.url} alt="RenderException" className="h-16 w-16" />
+              <div className="md:hidden">
+                <div className="text-xl font-bold tracking-tight text-foreground">RenderException</div>
+                <div className="font-mono text-xs text-meta">Hackathon 2026 · Team</div>
               </div>
-              <h3 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
-                RenderException
-              </h3>
             </div>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-              We build tools that catch what humans miss. Vantage is our hackathon submission — a
-              specialized QA agent for mobile that treats a crashed logcat like a hard stop, not a
-              warning, and treats every screen as something a model can actually read.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
-                Vision × containers × Android
-              </span>
-              <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
-                Apache-2.0
-              </span>
+            <div>
+              <div className="hidden md:block">
+                <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
+                  Hackathon 2026 · Team
+                </div>
+                <h3 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
+                  RenderException
+                </h3>
+              </div>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                We build tools that catch what humans miss. Vantage is our hackathon submission — a
+                specialized QA agent for mobile that treats a crashed logcat like a hard stop, not a
+                warning, and treats every screen as something a model can actually read.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
+                  Vision × containers × Android
+                </span>
+                <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
+                  Apache-2.0
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
+
       </div>
     </section>
   );
