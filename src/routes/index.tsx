@@ -513,31 +513,40 @@ function InputTypes() {
   return (
     <section className="border-b border-border bg-background-2/40">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">Input types</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Point it at an APK — or a URL.
-        </h2>
+        <Reveal>
+          <Eyebrow tone="violet">Input types</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Point it at an APK — or a URL.
+          </h2>
+        </Reveal>
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
-          <InputCard
-            tag="APK"
-            title="Native Android"
-            body="Upload an Android APK. Vantage installs it on a clean, isolated Android instance and runs the task against the native app."
-            code={`source_type: "apk"
+          <Reveal delay={0}>
+            <InputCard
+              tag="APK"
+              title="Native Android"
+              body="Upload an Android APK. Vantage installs it on a clean, isolated Android instance and runs the task against the native app."
+              code={`source_type: "apk"
 source_ref:  "com.example.app.apk"
 device:      "pixel5-android11"
 task:        "Open app, verify login renders"`}
-          />
-          <InputCard
-            tag="Web domain"
-            title="Mobile web"
-            body="Provide a URL — Vantage tests it inside a sandboxed mobile browser, with optional login credentials."
-            code={`source_type: "web"
+            />
+          </Reveal>
+          <Reveal delay={120}>
+            <InputCard
+              tag="Web domain"
+              title="Mobile web"
+              body="Provide a URL — Vantage tests it inside a sandboxed mobile browser, with optional login credentials."
+              code={`source_type: "web"
 source_ref:  "https://example.com"
 device:      "chrome-mobile"
 task:        "Add item to cart and check out"`}
-            tone="violet"
-          />
+              tone="violet"
+            />
+          </Reveal>
         </div>
+
       </div>
     </section>
   );
