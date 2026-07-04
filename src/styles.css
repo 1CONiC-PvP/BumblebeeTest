@@ -117,7 +117,24 @@
     background: var(--accent-bg);
     color: var(--accent-ink);
   }
+
+@utility hover-lift {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.45);
+  }
 }
+
+@utility hover-lift-accent {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.45), 0 0 24px -8px var(--accent-bg);
+  }
+}
+
 
 @utility grid-bg {
   position: relative;
