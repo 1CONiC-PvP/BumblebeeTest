@@ -606,13 +606,17 @@ function Roadmap() {
   return (
     <section id="roadmap" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>Build plan</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Seven phases. From one working agent to a production fleet.
-        </h2>
+        <Reveal>
+          <Eyebrow>Build plan</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Seven phases. From one working agent to a production fleet.
+          </h2>
+        </Reveal>
         <ol className="mt-10 border-l border-border">
           {phases.map(([n, title, body], i) => (
-            <li key={n} className="relative pl-8 pb-8 last:pb-0">
+            <Reveal as="li" key={n} delay={i * 70} className="relative pl-8 pb-8 last:pb-0" y={16}>
               <span className="absolute -left-[9px] top-1 flex h-4 w-4 items-center justify-center rounded-full border border-border bg-background">
                 <span className={"h-1.5 w-1.5 rounded-full " + (i < 3 ? "bg-accent" : "bg-meta")} />
               </span>
@@ -628,9 +632,10 @@ function Roadmap() {
                 )}
               </div>
               <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted-foreground">{body}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
+
       </div>
     </section>
   );
