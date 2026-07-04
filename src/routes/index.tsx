@@ -50,7 +50,7 @@ function Landing() {
 /* ---------- Nav ---------- */
 function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-md">
+    <header className="animate-load-fade sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-md" style={{ animationDelay: "0ms" }}>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <a href="#top" className="flex items-center gap-2.5">
           <img src={vantageLogo.url} alt="" className="h-7 w-7" />
