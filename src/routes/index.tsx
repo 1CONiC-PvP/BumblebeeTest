@@ -314,31 +314,37 @@ function Features() {
   return (
     <section id="features" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>What it does</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          A QA tester that thinks — and never gets tired.
-        </h2>
+        <Reveal>
+          <Eyebrow>What it does</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            A QA tester that thinks — and never gets tired.
+          </h2>
+        </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((f) => (
-            <article
-              key={f.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
-            >
-              <span
-                className={
-                  "absolute inset-x-0 top-0 h-px " +
-                  (f.tone === "violet"
-                    ? "bg-gradient-to-r from-transparent via-violet to-transparent"
-                    : f.tone === "crit"
-                    ? "bg-gradient-to-r from-transparent via-crit to-transparent"
-                    : "bg-gradient-to-r from-transparent via-accent to-transparent")
-                }
-              />
-              <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-            </article>
+          {items.map((f, i) => (
+            <Reveal key={f.title} delay={i * 90}>
+              <article
+                className="group relative h-full overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
+              >
+                <span
+                  className={
+                    "absolute inset-x-0 top-0 h-px " +
+                    (f.tone === "violet"
+                      ? "bg-gradient-to-r from-transparent via-violet to-transparent"
+                      : f.tone === "crit"
+                      ? "bg-gradient-to-r from-transparent via-crit to-transparent"
+                      : "bg-gradient-to-r from-transparent via-accent to-transparent")
+                  }
+                />
+                <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+              </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
