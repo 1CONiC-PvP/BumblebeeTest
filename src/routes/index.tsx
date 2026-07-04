@@ -466,37 +466,43 @@ function Architecture() {
   return (
     <section id="architecture" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow>Architecture</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          One scheduler. A fleet of containerized Androids. One agent per pod.
-        </h2>
+        <Reveal>
+          <Eyebrow>Architecture</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            One scheduler. A fleet of containerized Androids. One agent per pod.
+          </h2>
+        </Reveal>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
-          <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
-            <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-              vantage · topology.txt
-            </span>
-            <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+        <Reveal delay={160}>
+          <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
+            <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
+                vantage · topology.txt
+              </span>
+              <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+            </div>
+            <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
+              {diagram}
+            </pre>
           </div>
-          <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-            {diagram}
-          </pre>
-        </div>
+        </Reveal>
 
         <div className="mt-8 grid gap-3 md:grid-cols-2">
-          {components.map(([name, desc]) => (
-            <div
-              key={name}
-              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent"
-            >
-              <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
-              <div>
-                <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+          {components.map(([name, desc], i) => (
+            <Reveal key={name} delay={i * 80}>
+              <div className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent">
+                <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
+                <div>
+                  <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
