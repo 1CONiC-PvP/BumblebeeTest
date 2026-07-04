@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useRef } from "react";
 import vantageLogo from "@/assets/vantage-logo.png.asset.json";
 import reLogo from "@/assets/re-logo.png.asset.json";
+import { Reveal, RevealText } from "@/components/reveal";
+import { useParallax } from "@/hooks/use-scroll-fx";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
