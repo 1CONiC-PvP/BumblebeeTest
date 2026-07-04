@@ -291,7 +291,7 @@ function Features() {
           {items.map((f) => (
             <article
               key={f.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-raised"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
             >
               <span
                 className={
@@ -360,7 +360,7 @@ function HowItWorks() {
           {steps.map((s) => (
             <div
               key={s.n}
-              className="relative flex flex-col rounded-2xl border border-border bg-surface p-5"
+              className="relative flex flex-col rounded-2xl border border-border bg-surface p-5 hover-lift-accent"
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs text-meta">{s.n}</span>
@@ -446,7 +446,7 @@ function Architecture() {
           {components.map(([name, desc]) => (
             <div
               key={name}
-              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4"
+              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent"
             >
               <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
               <div>
@@ -512,7 +512,7 @@ function InputCard({
   const color = tone === "violet" ? "text-violet-ink" : "text-accent";
   const bg = tone === "violet" ? "bg-violet-bg" : "bg-accent-bg";
   return (
-    <article className="overflow-hidden rounded-2xl border border-border bg-surface">
+    <article className="overflow-hidden rounded-2xl border border-border bg-surface hover-lift">
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <span
           className={
