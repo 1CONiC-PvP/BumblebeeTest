@@ -291,7 +291,7 @@ function Features() {
           {items.map((f) => (
             <article
               key={f.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-raised"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-colors hover-lift-accent"
             >
               <span
                 className={
