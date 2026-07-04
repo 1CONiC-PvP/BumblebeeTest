@@ -389,42 +389,46 @@ function HowItWorks() {
   return (
     <section id="how" className="border-b border-border bg-background-2/40">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">The agent loop</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Five steps. Repeat until the task is done — or the app crashes.
-        </h2>
+        <Reveal>
+          <Eyebrow tone="violet">The agent loop</Eyebrow>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Five steps. Repeat until the task is done — or the app crashes.
+          </h2>
+        </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          {steps.map((s) => (
-            <div
-              key={s.n}
-              className="relative flex flex-col rounded-2xl border border-border bg-surface p-5 hover-lift-accent"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-meta">{s.n}</span>
-                <span
+          {steps.map((s, i) => (
+            <Reveal key={s.n} delay={i * 90} className="h-full">
+              <div className="relative flex h-full flex-col rounded-2xl border border-border bg-surface p-5 hover-lift-accent">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-meta">{s.n}</span>
+                  <span
+                    className={
+                      "h-2 w-2 rounded-full " +
+                      (s.tone === "violet" ? "bg-violet" : s.tone === "crit" ? "bg-crit" : "bg-accent")
+                    }
+                  />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-foreground">{s.title}</h3>
+                <code
                   className={
-                    "h-2 w-2 rounded-full " +
-                    (s.tone === "violet" ? "bg-violet" : s.tone === "crit" ? "bg-crit" : "bg-accent")
+                    "mt-3 block rounded-md border border-border-soft bg-background-2 px-2.5 py-1.5 font-mono text-[0.68rem] leading-snug break-words " +
+                    (s.tone === "violet"
+                      ? "text-violet-ink"
+                      : s.tone === "crit"
+                      ? "text-crit"
+                      : "text-accent")
                   }
-                />
+                >
+                  {s.code}
+                </code>
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">{s.title}</h3>
-              <code
-                className={
-                  "mt-3 block rounded-md border border-border-soft bg-background-2 px-2.5 py-1.5 font-mono text-[0.68rem] leading-snug break-words " +
-                  (s.tone === "violet"
-                    ? "text-violet-ink"
-                    : s.tone === "crit"
-                    ? "text-crit"
-                    : "text-accent")
-                }
-              >
-                {s.code}
-              </code>
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
