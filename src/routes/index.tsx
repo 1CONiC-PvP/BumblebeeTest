@@ -258,15 +258,20 @@ function StatStrip() {
   return (
     <section className="border-b border-border bg-background-2/60">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px overflow-hidden px-6 py-10 sm:grid-cols-4">
-        {stats.map((s) => (
-          <div key={s.k} className="px-4 py-2 sm:border-l sm:border-border sm:first:border-l-0">
+        {stats.map((s, i) => (
+          <Reveal
+            key={s.k}
+            delay={i * 90}
+            className="px-4 py-2 sm:border-l sm:border-border sm:first:border-l-0"
+          >
             <div className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-meta">{s.k}</div>
             <div className="mt-2 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
               {s.v}
             </div>
             <div className="mt-1 text-xs text-muted-foreground">{s.note}</div>
-          </div>
+          </Reveal>
         ))}
+
       </div>
     </section>
   );
