@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useLenis } from "../hooks/use-scroll-fx";
+
 
 function NotFoundComponent() {
   return (
