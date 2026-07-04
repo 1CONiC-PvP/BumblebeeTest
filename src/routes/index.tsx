@@ -646,39 +646,44 @@ function Team() {
   return (
     <section id="team" className="border-b border-border bg-background-2/50">
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <Eyebrow tone="violet">The team</Eyebrow>
-        <div className="mt-6 grid gap-6 rounded-2xl border border-border bg-surface p-8 md:grid-cols-[auto_1fr] md:items-center md:gap-10 md:p-10">
-          <div className="flex items-center gap-5">
-            <img src={reLogo.url} alt="RenderException" className="h-16 w-16" />
-            <div className="md:hidden">
-              <div className="text-xl font-bold tracking-tight text-foreground">RenderException</div>
-              <div className="font-mono text-xs text-meta">Hackathon 2026 · Team</div>
-            </div>
-          </div>
-          <div>
-            <div className="hidden md:block">
-              <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-                Hackathon 2026 · Team
+        <Reveal>
+          <Eyebrow tone="violet">The team</Eyebrow>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-6 grid gap-6 rounded-2xl border border-border bg-surface p-8 md:grid-cols-[auto_1fr] md:items-center md:gap-10 md:p-10">
+            <div className="flex items-center gap-5">
+              <img src={reLogo.url} alt="RenderException" className="h-16 w-16" />
+              <div className="md:hidden">
+                <div className="text-xl font-bold tracking-tight text-foreground">RenderException</div>
+                <div className="font-mono text-xs text-meta">Hackathon 2026 · Team</div>
               </div>
-              <h3 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
-                RenderException
-              </h3>
             </div>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-              We build tools that catch what humans miss. Vantage is our hackathon submission — a
-              specialized QA agent for mobile that treats a crashed logcat like a hard stop, not a
-              warning, and treats every screen as something a model can actually read.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
-                Vision × containers × Android
-              </span>
-              <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
-                Apache-2.0
-              </span>
+            <div>
+              <div className="hidden md:block">
+                <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
+                  Hackathon 2026 · Team
+                </div>
+                <h3 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
+                  RenderException
+                </h3>
+              </div>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                We build tools that catch what humans miss. Vantage is our hackathon submission — a
+                specialized QA agent for mobile that treats a crashed logcat like a hard stop, not a
+                warning, and treats every screen as something a model can actually read.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
+                  Vision × containers × Android
+                </span>
+                <span className="rounded-full border border-border bg-background-2 px-3 py-1 font-mono text-[0.7rem] text-muted-foreground">
+                  Apache-2.0
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
+
       </div>
     </section>
   );
