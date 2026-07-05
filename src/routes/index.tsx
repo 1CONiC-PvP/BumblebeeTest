@@ -29,6 +29,7 @@ export const Route = createFileRoute("/")({
 });
 
 const REPO_URL = "https://github.com/RenderException/Vantage";
+const DASHBOARD_URL = "https://vantage-qa.vercel.app";
 
 function Landing() {
   return (
