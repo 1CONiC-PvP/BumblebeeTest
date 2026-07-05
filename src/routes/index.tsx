@@ -29,6 +29,7 @@ export const Route = createFileRoute("/")({
 });
 
 const REPO_URL = "https://github.com/RenderException/Vantage";
+const DASHBOARD_URL = "https://vantage-qa.vercel.app";
 
 function Landing() {
   return (
@@ -66,14 +67,24 @@ function Nav() {
           <a href="#roadmap" className="transition-colors hover:text-foreground">Roadmap</a>
           <a href="#team" className="transition-colors hover:text-foreground">Team</a>
         </nav>
-        <a
-          href={REPO_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
-        >
-          <GithubIcon /> GitHub
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
+          >
+            <GithubIcon /> GitHub
+          </a>
+          <a
+            href={DASHBOARD_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-accent-ink"
+          >
+            Dashboard →
+          </a>
+        </div>
       </div>
     </header>
   );
@@ -93,13 +104,15 @@ function Hero() {
           <div className="animate-load-fade-up" style={{ animationDelay: "80ms" }}>
             <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
           </div>
-          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             <RevealText text="Autonomous QA swarm for" delay={150} step={55} />{" "}
-            <span className="text-accent">
-              <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+            <span className="whitespace-nowrap">
+              <span className="text-accent">
+                <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+              </span>{" "}
+              &amp;
             </span>{" "}
-            &{" "}
-            <span className="text-violet-ink">
+            <span className="whitespace-nowrap text-violet-ink">
               <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
             </span>
           </h1>
@@ -125,10 +138,12 @@ function Hero() {
               <GithubIcon /> View on GitHub
             </a>
             <a
-              href="#how"
+              href={DASHBOARD_URL}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
             >
-              See how it works →
+              Open Dashboard →
             </a>
           </div>
           <div className="mt-8 flex flex-wrap gap-2">
@@ -489,14 +504,14 @@ function Architecture() {
           </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-3 md:grid-cols-2">
+        <div className="mt-8 grid gap-3 md:grid-cols-2 md:auto-rows-fr">
           {components.map(([name, desc], i) => (
-            <Reveal key={name} delay={i * 80}>
-              <div className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent">
-                <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
-                <div>
+            <Reveal key={name} delay={i * 80} className="h-full">
+              <div className="flex h-full items-start gap-4 rounded-xl border border-border bg-surface p-5 hover-lift-accent">
+                <span className="mt-1.5 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
+                <div className="flex-1">
                   <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
-                  <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+                  <div className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</div>
                 </div>
               </div>
             </Reveal>
