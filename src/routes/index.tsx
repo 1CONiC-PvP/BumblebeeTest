@@ -138,10 +138,12 @@ function Hero() {
               <GithubIcon /> View on GitHub
             </a>
             <a
-              href="#how"
+              href={DASHBOARD_URL}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
             >
-              See how it works →
+              Open Dashboard →
             </a>
           </div>
           <div className="mt-8 flex flex-wrap gap-2">
