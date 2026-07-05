@@ -66,14 +66,24 @@ function Nav() {
           <a href="#roadmap" className="transition-colors hover:text-foreground">Roadmap</a>
           <a href="#team" className="transition-colors hover:text-foreground">Team</a>
         </nav>
-        <a
-          href={REPO_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
-        >
-          <GithubIcon /> GitHub
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
+          >
+            <GithubIcon /> GitHub
+          </a>
+          <a
+            href={DASHBOARD_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-accent-ink"
+          >
+            Dashboard →
+          </a>
+        </div>
       </div>
     </header>
   );
