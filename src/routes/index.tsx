@@ -106,14 +106,15 @@ function Hero() {
           </div>
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             <RevealText text="Autonomous QA swarm for" delay={150} step={55} />{" "}
+            <span className="text-accent">
+              <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+            </span>
+            {" "}
             <span className="whitespace-nowrap">
-              <span className="text-accent">
-                <RevealText text="Android" delay={150 + 55 * 4} step={55} />
-              </span>{" "}
-              &amp;
-            </span>{" "}
-            <span className="whitespace-nowrap text-violet-ink">
-              <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
+              <RevealText text="&" delay={150 + 55 * 5} step={55} />{" "}
+              <span className="text-violet-ink">
+                <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
+              </span>
             </span>
           </h1>
           <p
@@ -133,7 +134,7 @@ function Hero() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-accent-ink"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
             >
               <GithubIcon /> View on GitHub
             </a>
@@ -141,7 +142,7 @@ function Hero() {
               href={DASHBOARD_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-raised hover:bg-surface-2"
+              className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-accent-ink"
             >
               Open Dashboard →
             </a>
