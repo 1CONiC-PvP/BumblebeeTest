@@ -104,13 +104,15 @@ function Hero() {
           <div className="animate-load-fade-up" style={{ animationDelay: "80ms" }}>
             <Eyebrow>RenderException · Hackathon 2026</Eyebrow>
           </div>
-          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             <RevealText text="Autonomous QA swarm for" delay={150} step={55} />{" "}
-            <span className="text-accent">
-              <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+            <span className="whitespace-nowrap">
+              <span className="text-accent">
+                <RevealText text="Android" delay={150 + 55 * 4} step={55} />
+              </span>{" "}
+              &amp;
             </span>{" "}
-            &{" "}
-            <span className="text-violet-ink">
+            <span className="whitespace-nowrap text-violet-ink">
               <RevealText text="mobile web." delay={150 + 55 * 6} step={55} />
             </span>
           </h1>
