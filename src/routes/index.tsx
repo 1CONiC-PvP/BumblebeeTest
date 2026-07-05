@@ -504,14 +504,14 @@ function Architecture() {
           </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-3 md:grid-cols-2">
+        <div className="mt-8 grid gap-3 md:grid-cols-2 md:auto-rows-fr">
           {components.map(([name, desc], i) => (
-            <Reveal key={name} delay={i * 80}>
-              <div className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 hover-lift-accent">
-                <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
-                <div>
+            <Reveal key={name} delay={i * 80} className="h-full">
+              <div className="flex h-full items-start gap-4 rounded-xl border border-border bg-surface p-5 hover-lift-accent">
+                <span className="mt-1.5 inline-block h-2 w-2 shrink-0 rounded-full bg-accent" />
+                <div className="flex-1">
                   <div className="font-mono text-xs font-semibold text-foreground">{name}</div>
-                  <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
+                  <div className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</div>
                 </div>
               </div>
             </Reveal>
