@@ -452,24 +452,6 @@ function HowItWorks() {
 
 /* ---------- Architecture ---------- */
 function Architecture() {
-  const diagram = `             +----------------+
-    People / |  New Session   |  APK or domain + task
-    CI       |  Input Form    |-----------------------+
-             +----------------+                       |
-                                                       v
-             +----------------+               +------------------+
-             |  Fleet         |<------------->|  Session         |
-             |  Dashboard     |               |  Scheduler       |  (queue, warm pool,
-             +----------------+               +--------+---------+   autoscaling)
-                                                       |
-                    +----------------------------------+----------------------------------+
-                    v                                  v                                  v
-             redroid pod                         redroid pod                         redroid pod   ... up to 100
-             + agent sidecar                     + agent sidecar                     + agent sidecar
-                    |                                  |                                  |
-                    +------------------> Object storage (screenshots, video, logs)
-                    +------------------> Results DB (pass/fail, traces, assertions)`;
-
   const components = [
     ["New Session Input", "Accept an APK upload or domain URL, plus a task description and device profile."],
     ["Session Scheduler", "Queue requests, maintain a warm pool of pre-booted Android boxes, autoscale."],
@@ -495,13 +477,11 @@ function Architecture() {
           <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
             <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-                vantage · topology.txt
+                vantage · topology
               </span>
-              <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+              <span className="font-mono text-[0.65rem] text-meta">live diagram</span>
             </div>
-            <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-              {diagram}
-            </pre>
+            <TopologyDiagram />
           </div>
         </Reveal>
 
@@ -521,6 +501,281 @@ function Architecture() {
 
       </div>
     </section>
+  );
+}
+
+/* ---------- Topology diagram (SVG) ---------- */
+function TopologyDiagram() {
+  // Palette hooks into the site's semantic tokens via CSS vars.
+  // accent = green (local vision), violet = cloud reasoning.
+  const stroke = "var(--border)";
+  const label = "var(--foreground)";
+  const meta = "var(--muted-foreground)";
+
+  const Node = ({
+    x,
+    y,
+    w,
+    h,
+    title,
+    sub,
+    tone = "surface",
+  }: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    title: string;
+    sub?: string;
+    tone?: "surface" | "accent" | "violet";
+  }) => {
+    const fill =
+      tone === "accent"
+        ? "color-mix(in oklab, var(--accent) 10%, var(--surface))"
+        : tone === "violet"
+          ? "color-mix(in oklab, var(--violet) 12%, var(--surface))"
+          : "var(--surface)";
+    const border =
+      tone === "accent"
+        ? "var(--accent)"
+        : tone === "violet"
+          ? "var(--violet)"
+          : stroke;
+    const dot =
+      tone === "accent"
+        ? "var(--accent)"
+        : tone === "violet"
+          ? "var(--violet)"
+          : "var(--muted-foreground)";
+    return (
+      <g>
+        <rect
+          x={x}
+          y={y}
+          width={w}
+          height={h}
+          rx={10}
+          fill={fill as string}
+          stroke={border}
+          strokeWidth={1}
+        />
+        <circle cx={x + 12} cy={y + 14} r={3} fill={dot} />
+        <text
+          x={x + 22}
+          y={y + 18}
+          fontFamily="var(--font-mono)"
+          fontSize={11}
+          fontWeight={600}
+          fill={label}
+        >
+          {title}
+        </text>
+        {sub && (
+          <text
+            x={x + 12}
+            y={y + 36}
+            fontFamily="var(--font-mono)"
+            fontSize={10}
+            fill={meta}
+          >
+            {sub}
+          </text>
+        )}
+      </g>
+    );
+  };
+
+  return (
+    <div className="w-full overflow-x-auto bg-background-2/40">
+      <svg
+        viewBox="0 0 880 440"
+        className="mx-auto block w-full min-w-[720px]"
+        role="img"
+        aria-label="Vantage system topology"
+      >
+        <defs>
+          <pattern
+            id="topo-grid"
+            width="24"
+            height="24"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 24 0 L 0 0 0 24"
+              fill="none"
+              stroke={stroke}
+              strokeWidth="0.5"
+              opacity="0.4"
+            />
+          </pattern>
+          <marker
+            id="arrow-accent"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)" />
+          </marker>
+          <marker
+            id="arrow-violet"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--violet)" />
+          </marker>
+          <marker
+            id="arrow-muted"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--muted-foreground)" />
+          </marker>
+          <linearGradient id="pod-glow" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="var(--violet)" stopOpacity="0.14" />
+          </linearGradient>
+        </defs>
+
+        <rect width="880" height="440" fill="url(#topo-grid)" />
+
+        {/* Top row: Input + Dashboard */}
+        <Node x={40} y={40} w={220} h={56} title="New Session Input" sub="APK · URL · task · device" tone="accent" />
+        <Node x={620} y={40} w={220} h={56} title="Fleet Dashboard" sub="live thumbnails · verdicts" tone="violet" />
+
+        {/* Scheduler */}
+        <Node x={330} y={130} w={220} h={64} title="Session Scheduler" sub="queue · warm pool · autoscale" />
+
+        {/* Fleet container */}
+        <rect
+          x={40}
+          y={230}
+          width={800}
+          height={110}
+          rx={12}
+          fill="url(#pod-glow)"
+          stroke={stroke}
+          strokeDasharray="3 4"
+        />
+        <text
+          x={56}
+          y={250}
+          fontFamily="var(--font-mono)"
+          fontSize={10}
+          fill={meta}
+          letterSpacing="1.5"
+        >
+          REDROID FLEET · up to 100 concurrent
+        </text>
+
+        {/* Pods */}
+        {[0, 1, 2, 3].map((i) => {
+          const x = 56 + i * 195;
+          return (
+            <g key={i}>
+              <rect
+                x={x}
+                y={264}
+                width={175}
+                height={62}
+                rx={8}
+                fill="var(--surface)"
+                stroke="var(--accent)"
+                strokeOpacity="0.55"
+              />
+              <circle cx={x + 12} cy={278} r={3} fill="var(--accent)" />
+              <text x={x + 22} y={282} fontFamily="var(--font-mono)" fontSize={10.5} fontWeight={600} fill={label}>
+                redroid pod
+              </text>
+              <line x1={x + 10} y1={294} x2={x + 165} y2={294} stroke={stroke} />
+              <circle cx={x + 12} cy={310} r={2.5} fill="var(--violet)" />
+              <text x={x + 22} y={314} fontFamily="var(--font-mono)" fontSize={10} fill={meta}>
+                + agent sidecar
+              </text>
+            </g>
+          );
+        })}
+        <text x={820} y={302} fontFamily="var(--font-mono)" fontSize={18} fill={meta}>
+          …
+        </text>
+
+        {/* Storage row */}
+        <Node x={120} y={370} w={280} h={50} title="Object Storage" sub="screenshots · video · logs" tone="accent" />
+        <Node x={480} y={370} w={280} h={50} title="Results DB" sub="pass/fail · traces · assertions" tone="violet" />
+
+        {/* Connections */}
+        {/* Input -> Scheduler */}
+        <path
+          d="M 150 96 C 150 118, 330 118, 380 130"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="1.5"
+          markerEnd="url(#arrow-accent)"
+        />
+        {/* Dashboard <-> Scheduler */}
+        <path
+          d="M 730 96 C 730 118, 550 118, 500 130"
+          fill="none"
+          stroke="var(--violet)"
+          strokeWidth="1.5"
+          markerEnd="url(#arrow-violet)"
+          markerStart="url(#arrow-violet)"
+        />
+
+        {/* Scheduler -> fleet (fan-out) */}
+        {[143, 338, 533, 728].map((cx, i) => (
+          <path
+            key={i}
+            d={`M 440 194 C 440 220, ${cx} 220, ${cx} 264`}
+            fill="none"
+            stroke="var(--accent)"
+            strokeOpacity="0.75"
+            strokeWidth="1.25"
+            markerEnd="url(#arrow-accent)"
+          />
+        ))}
+
+        {/* Fleet -> Storage / Results */}
+        <path
+          d="M 260 340 C 260 358, 260 358, 260 370"
+          fill="none"
+          stroke="var(--muted-foreground)"
+          strokeOpacity="0.7"
+          strokeWidth="1.25"
+          markerEnd="url(#arrow-muted)"
+        />
+        <path
+          d="M 620 340 C 620 358, 620 358, 620 370"
+          fill="none"
+          stroke="var(--muted-foreground)"
+          strokeOpacity="0.7"
+          strokeWidth="1.25"
+          markerEnd="url(#arrow-muted)"
+        />
+
+        {/* Legend */}
+        <g transform="translate(40, 410)">
+          <circle cx={4} cy={0} r={3} fill="var(--accent)" />
+          <text x={14} y={4} fontFamily="var(--font-mono)" fontSize={9.5} fill={meta}>
+            control / vision
+          </text>
+          <circle cx={140} cy={0} r={3} fill="var(--violet)" />
+          <text x={150} y={4} fontFamily="var(--font-mono)" fontSize={9.5} fill={meta}>
+            reasoning / results
+          </text>
+        </g>
+      </svg>
+    </div>
   );
 }
 
