@@ -508,9 +508,9 @@ function Architecture() {
 function TopologyDiagram() {
   // Palette hooks into the site's semantic tokens via CSS vars.
   // accent = green (local vision), violet = cloud reasoning.
-  const stroke = "hsl(var(--border))";
-  const label = "hsl(var(--foreground))";
-  const meta = "hsl(var(--muted-foreground))";
+  const stroke = "var(--border)";
+  const label = "var(--foreground)";
+  const meta = "var(--muted-foreground)";
 
   const Node = ({
     x,
@@ -534,19 +534,19 @@ function TopologyDiagram() {
         ? "color-mix(in oklab, var(--accent) 10%, var(--surface))"
         : tone === "violet"
           ? "color-mix(in oklab, var(--violet) 12%, var(--surface))"
-          : "hsl(var(--surface))";
+          : "var(--surface)";
     const border =
       tone === "accent"
-        ? "hsl(var(--accent))"
+        ? "var(--accent)"
         : tone === "violet"
-          ? "hsl(var(--violet))"
+          ? "var(--violet)"
           : stroke;
     const dot =
       tone === "accent"
-        ? "hsl(var(--accent))"
+        ? "var(--accent)"
         : tone === "violet"
-          ? "hsl(var(--violet))"
-          : "hsl(var(--muted-foreground))";
+          ? "var(--violet)"
+          : "var(--muted-foreground)";
     return (
       <g>
         <rect
@@ -617,7 +617,7 @@ function TopologyDiagram() {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M0,0 L10,5 L0,10 z" fill="hsl(var(--accent))" />
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)" />
           </marker>
           <marker
             id="arrow-violet"
@@ -628,7 +628,7 @@ function TopologyDiagram() {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M0,0 L10,5 L0,10 z" fill="hsl(var(--violet))" />
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--violet)" />
           </marker>
           <marker
             id="arrow-muted"
@@ -639,11 +639,11 @@ function TopologyDiagram() {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M0,0 L10,5 L0,10 z" fill="hsl(var(--muted-foreground))" />
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--muted-foreground)" />
           </marker>
           <linearGradient id="pod-glow" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="hsl(var(--violet))" stopOpacity="0.14" />
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="var(--violet)" stopOpacity="0.14" />
           </linearGradient>
         </defs>
 
@@ -689,16 +689,16 @@ function TopologyDiagram() {
                 width={175}
                 height={62}
                 rx={8}
-                fill="hsl(var(--surface))"
-                stroke="hsl(var(--accent))"
+                fill="var(--surface)"
+                stroke="var(--accent)"
                 strokeOpacity="0.55"
               />
-              <circle cx={x + 12} cy={278} r={3} fill="hsl(var(--accent))" />
+              <circle cx={x + 12} cy={278} r={3} fill="var(--accent)" />
               <text x={x + 22} y={282} fontFamily="var(--font-mono)" fontSize={10.5} fontWeight={600} fill={label}>
                 redroid pod
               </text>
               <line x1={x + 10} y1={294} x2={x + 165} y2={294} stroke={stroke} />
-              <circle cx={x + 12} cy={310} r={2.5} fill="hsl(var(--violet))" />
+              <circle cx={x + 12} cy={310} r={2.5} fill="var(--violet)" />
               <text x={x + 22} y={314} fontFamily="var(--font-mono)" fontSize={10} fill={meta}>
                 + agent sidecar
               </text>
@@ -718,7 +718,7 @@ function TopologyDiagram() {
         <path
           d="M 150 96 C 150 118, 330 118, 380 130"
           fill="none"
-          stroke="hsl(var(--accent))"
+          stroke="var(--accent)"
           strokeWidth="1.5"
           markerEnd="url(#arrow-accent)"
         />
@@ -726,7 +726,7 @@ function TopologyDiagram() {
         <path
           d="M 730 96 C 730 118, 550 118, 500 130"
           fill="none"
-          stroke="hsl(var(--violet))"
+          stroke="var(--violet)"
           strokeWidth="1.5"
           markerEnd="url(#arrow-violet)"
           markerStart="url(#arrow-violet)"
@@ -738,7 +738,7 @@ function TopologyDiagram() {
             key={i}
             d={`M 440 194 C 440 220, ${cx} 220, ${cx} 264`}
             fill="none"
-            stroke="hsl(var(--accent))"
+            stroke="var(--accent)"
             strokeOpacity="0.75"
             strokeWidth="1.25"
             markerEnd="url(#arrow-accent)"
@@ -749,7 +749,7 @@ function TopologyDiagram() {
         <path
           d="M 260 340 C 260 358, 260 358, 260 370"
           fill="none"
-          stroke="hsl(var(--muted-foreground))"
+          stroke="var(--muted-foreground)"
           strokeOpacity="0.7"
           strokeWidth="1.25"
           markerEnd="url(#arrow-muted)"
@@ -757,7 +757,7 @@ function TopologyDiagram() {
         <path
           d="M 620 340 C 620 358, 620 358, 620 370"
           fill="none"
-          stroke="hsl(var(--muted-foreground))"
+          stroke="var(--muted-foreground)"
           strokeOpacity="0.7"
           strokeWidth="1.25"
           markerEnd="url(#arrow-muted)"
@@ -765,11 +765,11 @@ function TopologyDiagram() {
 
         {/* Legend */}
         <g transform="translate(40, 410)">
-          <circle cx={4} cy={0} r={3} fill="hsl(var(--accent))" />
+          <circle cx={4} cy={0} r={3} fill="var(--accent)" />
           <text x={14} y={4} fontFamily="var(--font-mono)" fontSize={9.5} fill={meta}>
             control / vision
           </text>
-          <circle cx={140} cy={0} r={3} fill="hsl(var(--violet))" />
+          <circle cx={140} cy={0} r={3} fill="var(--violet)" />
           <text x={150} y={4} fontFamily="var(--font-mono)" fontSize={9.5} fill={meta}>
             reasoning / results
           </text>
