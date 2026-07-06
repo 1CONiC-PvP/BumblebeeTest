@@ -452,24 +452,6 @@ function HowItWorks() {
 
 /* ---------- Architecture ---------- */
 function Architecture() {
-  const diagram = `             +----------------+
-    People / |  New Session   |  APK or domain + task
-    CI       |  Input Form    |-----------------------+
-             +----------------+                       |
-                                                       v
-             +----------------+               +------------------+
-             |  Fleet         |<------------->|  Session         |
-             |  Dashboard     |               |  Scheduler       |  (queue, warm pool,
-             +----------------+               +--------+---------+   autoscaling)
-                                                       |
-                    +----------------------------------+----------------------------------+
-                    v                                  v                                  v
-             redroid pod                         redroid pod                         redroid pod   ... up to 100
-             + agent sidecar                     + agent sidecar                     + agent sidecar
-                    |                                  |                                  |
-                    +------------------> Object storage (screenshots, video, logs)
-                    +------------------> Results DB (pass/fail, traces, assertions)`;
-
   const components = [
     ["New Session Input", "Accept an APK upload or domain URL, plus a task description and device profile."],
     ["Session Scheduler", "Queue requests, maintain a warm pool of pre-booted Android boxes, autoscale."],
@@ -495,13 +477,11 @@ function Architecture() {
           <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-surface">
             <div className="flex items-center justify-between border-b border-border bg-background-2 px-4 py-2.5">
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-meta">
-                vantage · topology.txt
+                vantage · topology
               </span>
-              <span className="font-mono text-[0.65rem] text-meta">read-only</span>
+              <span className="font-mono text-[0.65rem] text-meta">live diagram</span>
             </div>
-            <pre className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-              {diagram}
-            </pre>
+            <TopologyDiagram />
           </div>
         </Reveal>
 
